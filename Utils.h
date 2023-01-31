@@ -13,6 +13,13 @@ struct Vecteur
     Vecteur();                          // constructeur par defaut
     float operator[](int i) const;      // accesseur en lecture
     float &operator[](int i);           // accesseur en ecriture
+
+    // Retourne le vecteur dont les composantes sont les minima des
+    // composantes de soi-même et de other.
+    Vecteur inf(const Vecteur &other) const;
+    // Retourne le vecteur dont les composantes sont les maxima des
+    // composantes de soi-même et de other.
+    Vecteur sup(const Vecteur &other) const;
 };
 std::ostream &operator<<(std::ostream &out, Vecteur v);
 std::istream &operator>>(std::istream &in, Vecteur &v);
@@ -38,4 +45,5 @@ struct TriangleSoup
     std::vector<Triangle> triangles; // les triangles
     TriangleSoup();
     void read(std::istream &in);
+    void boundingBox(Vecteur &low, Vecteur &up) const;
 };

@@ -22,6 +22,29 @@ float Vecteur::operator[](int i) const { return xyz[i]; }
 
 float &Vecteur::operator[](int i) { return xyz[i]; }
 
+// Retourne le vecteur dont les composantes sont les minima des
+// composantes de soi-même et de other.
+Vecteur Vecteur::inf(const Vecteur &other) const
+{
+    Vecteur res;
+    for (int i = 0; i < 3; i++)
+    {
+        res[i] = min(xyz[i], other[i]);
+    }
+    return res;
+}
+// Retourne le vecteur dont les composantes sont les maxima des
+// composantes de soi-même et de other.
+Vecteur Vecteur::sup(const Vecteur &other) const
+{
+    Vecteur res;
+    for (int i = 0; i < 3; i++)
+    {
+        res[i] = max(xyz[i], other[i]);
+    }
+    return res;
+}
+
 std::ostream &operator<<(std::ostream &out, Vecteur v)
 {
     out << v[0] << " " << v[1] << " " << v[2];
@@ -67,5 +90,20 @@ void TriangleSoup::read(std::istream &in)
         {
             triangles.push_back(t);
         }
+    }
+}
+
+void TriangleSoup::boundingBox(Vecteur &low, Vecteur &up) const
+{
+    low = triangles[0].getSommet1();
+    up = triangles[0].getSommet1();
+    for (int i = 0; i < triangles.size(); i++)
+    {
+        low = low.inf(triangles[i].getSommet1());
+        low = low.inf(triangles[i].getSommet2());
+        low = low.inf(triangles[i].getSommet3());
+        up = up.sup(triangles[i].getSommet1());
+        up = up.sup(triangles[i].getSommet2());
+        up = up.sup(triangles[i].getSommet3());
     }
 }

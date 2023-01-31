@@ -32,13 +32,13 @@ void Viewer::draw()
 
   // question 3.2 part2 affichage avec tref tri
 
+  
   if (!ptrSoup)
     return;
   for (const Triangle &triangle : ptrSoup->triangles)
   {
 
     float colorRedDiff[4] = {1.0, 0.0, 0.0, 1.0};
-
     glBegin(GL_TRIANGLES);
     glColor4fv(colorRedDiff);
 
@@ -49,10 +49,31 @@ void Viewer::draw()
   }
 }
 
+
+// old init
+// void Viewer::init()
+// {
+//   // Restore previous viewer state.
+//   restoreStateFromFile();
+
+//   // Opens help window
+//   help();
+// }
+
+
+// question 3.3 ajustement de la camera
 void Viewer::init()
 {
-  // Restore previous viewer state.
-  restoreStateFromFile();
+  // Calculer la boîte englobante
+  Vecteur low, up;
+  ptrSoup->boundingBox(low, up);
+
+  cout<<"low: "<< low;
+  cout<<"up: "<< up;
+
+  // Configurer la caméra en fonction de la boîte englobante
+  camera()->setSceneBoundingBox(qglviewer::Vec(low[0], low[1], low[2]), qglviewer::Vec(up[0], up[1], up[2]));
+  camera()->showEntireScene();
 
   // Opens help window
   help();
