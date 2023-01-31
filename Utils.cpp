@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <cmath>
 using namespace std;
 
 // Class Vecteur
@@ -45,6 +46,36 @@ Vecteur Vecteur::sup(const Vecteur &other) const
     return res;
 }
 
+// produit vectoriel
+Vecteur Vecteur::cross(const Vecteur &other) const
+{
+    return Vecteur(
+        xyz[1] * other[2] - xyz[2] * other[1],
+        xyz[2] * other[0] - xyz[0] * other[2],
+        xyz[0] * other[1] - xyz[1] * other[0]);
+}
+
+// normalise le vecteur
+void Vecteur::normalize()
+{
+    float norm = sqrt(xyz[0] * xyz[0] + xyz[1] * xyz[1] + xyz[2] * xyz[2]);
+    for (int i = 0; i < 3; i++)
+    {
+        xyz[i] = xyz[i] / norm;
+    }
+}
+
+// soustraction de vecteurs
+Vecteur Vecteur::operator-(const Vecteur &other) const
+{
+    Vecteur res;
+    for (int i = 0; i < 3; i++)
+    {
+        res[i] = xyz[i] - other[i];
+    }
+    return res;
+}
+
 std::ostream &operator<<(std::ostream &out, Vecteur v)
 {
     out << v[0] << " " << v[1] << " " << v[2];
@@ -63,6 +94,16 @@ Triangle::Triangle() : Triangle(Vecteur(), Vecteur(), Vecteur()) {}
 Vecteur Triangle::getSommet1() const { return sommet1; }
 Vecteur Triangle::getSommet2() const { return sommet2; }
 Vecteur Triangle::getSommet3() const { return sommet3; }
+
+Vecteur Triangle::normal() const
+{
+    // return (sommet2 - sommet1).cross(sommet3 - sommet1);
+    Vecteur u = getSommet2() - getSommet1();
+    Vecteur v = getSommet3() - getSommet1();
+    Vecteur normal = u.cross(v);
+    normal.normalize();
+    return normal;
+}
 
 std::ostream &operator<<(std::ostream &out, Triangle t)
 {

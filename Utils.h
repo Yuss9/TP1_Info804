@@ -13,6 +13,7 @@ struct Vecteur
     Vecteur();                          // constructeur par defaut
     float operator[](int i) const;      // accesseur en lecture
     float &operator[](int i);           // accesseur en ecriture
+    void normalize();
 
     // Retourne le vecteur dont les composantes sont les minima des
     // composantes de soi-même et de other.
@@ -20,6 +21,8 @@ struct Vecteur
     // Retourne le vecteur dont les composantes sont les maxima des
     // composantes de soi-même et de other.
     Vecteur sup(const Vecteur &other) const;
+    Vecteur cross(const Vecteur &other) const;
+    Vecteur operator-(const Vecteur &other) const;
 };
 std::ostream &operator<<(std::ostream &out, Vecteur v);
 std::istream &operator>>(std::istream &in, Vecteur &v);
@@ -32,6 +35,7 @@ public:
     Vecteur getSommet1() const;
     Vecteur getSommet2() const;
     Vecteur getSommet3() const;
+    Vecteur normal() const;
 
 private:
     Vecteur sommet1, sommet2, sommet3;

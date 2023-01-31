@@ -32,11 +32,46 @@ void Viewer::draw()
 
   // question 3.2 part2 affichage avec tref tri
 
-  
+  // if (!ptrSoup)
+  //   return;
+
+  // for (const Triangle &triangle : ptrSoup->triangles)
+  // {
+
+  //   float colorRedDiff[4] = {1.0, 0.0, 0.0, 1.0};
+  //   glBegin(GL_TRIANGLES);
+  //   glColor4fv(colorRedDiff);
+
+  //   glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
+  //   glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
+  //   glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
+  //   glEnd();
+  // }
+
+  // question 3.4 Flat shading sur les faces
+
   if (!ptrSoup)
     return;
+
+  float colorBronzeDiff[4] = {0.8, 0.6, 0.0, 1.0};
+  float colorBronzeSpec[4] = {1.0, 1.0, 0.4, 1.0};
+  float colorNull[4] = {0.0, 0.0, 0.0, 1.0};
+
+  // OpenGL met en place par défaut le modèle de Phong d'illumination.
+  glBegin(GL_TRIANGLES);
+  // Si vous les écrivez là, ces couleurs/réglages seront partagés par tous
+  // les triangles.
+  glColor4fv(colorBronzeDiff);
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
+  glMaterialf(GL_FRONT, GL_SHININESS, 20.0f);
+
   for (const Triangle &triangle : ptrSoup->triangles)
   {
+    // Pour chaque triangle, avant les glVertex de chaque triangle:
+    const Triangle &T = triangle;
+    Vecteur n = T.normal();
+    glNormal3f(n[0], n[1], n[2]);
 
     float colorRedDiff[4] = {1.0, 0.0, 0.0, 1.0};
     glBegin(GL_TRIANGLES);
@@ -49,7 +84,6 @@ void Viewer::draw()
   }
 }
 
-
 // old init
 // void Viewer::init()
 // {
@@ -60,16 +94,12 @@ void Viewer::draw()
 //   help();
 // }
 
-
 // question 3.3 ajustement de la camera
 void Viewer::init()
 {
   // Calculer la boîte englobante
   Vecteur low, up;
   ptrSoup->boundingBox(low, up);
-
-  cout<<"low: "<< low;
-  cout<<"up: "<< up;
 
   // Configurer la caméra en fonction de la boîte englobante
   camera()->setSceneBoundingBox(qglviewer::Vec(low[0], low[1], low[2]), qglviewer::Vec(up[0], up[1], up[2]));

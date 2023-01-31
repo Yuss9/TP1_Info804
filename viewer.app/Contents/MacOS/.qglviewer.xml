@@ -1,21 +1,21 @@
 <!DOCTYPE QGLVIEWER>
 <QGLViewer version="2.9.1">
   <State stereo="false">
-    <foregroundColor red="180" green="180" blue="180"/>
-    <backgroundColor red="51" green="51" blue="51"/>
+    <foregroundColor blue="180" red="180" green="180"/>
+    <backgroundColor blue="51" red="51" green="51"/>
   </State>
-  <Display cameraIsEdited="false" FPSIsDisplayed="false" axisIsDrawn="false" gridIsDrawn="false"/>
-  <Geometry width="600" fullScreen="false" posX="-1279" posY="185" height="400"/>
+  <Display axisIsDrawn="false" FPSIsDisplayed="false" cameraIsEdited="false" gridIsDrawn="false"/>
+  <Geometry width="600" fullScreen="false" height="400" posX="-1279" posY="185"/>
   <Camera>
-    <Parameters Type="PERSPECTIVE" orthoCoef="0.418941" zNearCoefficient="0.005" sceneRadius="8.44094" fieldOfView="0.785398" zClippingCoefficient="1.73205">
+    <Parameters orthoCoef="0.418941" zClippingCoefficient="1.73205" Type="PERSPECTIVE" zNearCoefficient="0.005" sceneRadius="8.44094" fieldOfView="0.785398">
       <SceneCenter y="0.0244651" x="0.42095" z="0.0294901"/>
     </Parameters>
-    <Stereo focusDistance="20.3782" IODist="0.062" physScreenWidth="0.5"/>
+    <Stereo IODist="0.062" focusDistance="20.3782" physScreenWidth="0.5"/>
     <ManipulatedCameraFrame>
-      <position y="0.0244651" x="0.42095" z="22.0867"/>
-      <orientation q2="0" q0="0" q3="1" q1="0"/>
-      <ManipulatedParameters wheelSens="1" zoomSens="1" rotSens="1" transSens="1" spinSens="0.3"/>
-      <ManipulatedCameraParameters zoomsOnPivotPoint="false" flySpeed="0.0844094" rotatesAroundUpVector="false">
+      <position y="9.86736" x="5.43695" z="19.1208"/>
+      <orientation q0="0.24658" q1="0.0801895" q2="0.683144" q3="-0.682702"/>
+      <ManipulatedParameters spinSens="0.3" transSens="1" wheelSens="1" rotSens="1" zoomSens="1"/>
+      <ManipulatedCameraParameters rotatesAroundUpVector="false" flySpeed="0.0844094" zoomsOnPivotPoint="false">
         <sceneUpVector y="1" x="0" z="0"/>
       </ManipulatedCameraParameters>
     </ManipulatedCameraFrame>
