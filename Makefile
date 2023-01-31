@@ -53,9 +53,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = Viewer.cpp \
-		main.cpp 
+		main.cpp \
+		Utils.cpp 
 OBJECTS       = Viewer.o \
-		main.o
+		main.o \
+		Utils.o
 DIST          = /usr/local/share/qt/mkspecs/features/spec_pre.prf \
 		/usr/local/share/qt/mkspecs/features/device_config.prf \
 		/usr/local/Cellar/qt/6.4.2_1/share/qt/mkspecs/common/unix.conf \
@@ -338,8 +340,10 @@ DIST          = /usr/local/share/qt/mkspecs/features/spec_pre.prf \
 		/usr/local/share/qt/mkspecs/features/exceptions.prf \
 		/usr/local/share/qt/mkspecs/features/yacc.prf \
 		/usr/local/share/qt/mkspecs/features/lex.prf \
-		viewer.pro Viewer.h Viewer.cpp \
-		main.cpp
+		viewer.pro Viewer.h \
+		Utils.h Viewer.cpp \
+		main.cpp \
+		Utils.cpp
 QMAKE_TARGET  = viewer
 DESTDIR       = 
 TARGET        = viewer.app/Contents/MacOS/viewer
@@ -975,8 +979,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/local/share/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents Viewer.h $(DISTDIR)/
-	$(COPY_FILE) --parents Viewer.cpp main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents Viewer.h Utils.h $(DISTDIR)/
+	$(COPY_FILE) --parents Viewer.cpp main.cpp Utils.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -1093,8 +1097,12 @@ main.o: main.cpp /usr/local/lib/QtWidgets.framework/Headers/qapplication.h \
 		/usr/local/lib/QtGui.framework/Headers/QClipboard \
 		/usr/local/lib/QtGui.framework/Headers/qclipboard.h \
 		/usr/local/lib/QtCore.framework/Headers/QElapsedTimer \
-		/usr/local/lib/QtCore.framework/Headers/qelapsedtimer.h
+		/usr/local/lib/QtCore.framework/Headers/qelapsedtimer.h \
+		Utils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+
+Utils.o: Utils.cpp Utils.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Utils.o Utils.cpp
 
 ####### Install
 

@@ -13,9 +13,9 @@ QT += widgets
 QT += openglwidgets 
 
 # Noms de vos fichiers entete
-HEADERS = Viewer.h
+HEADERS = Viewer.h Utils.h
 # Noms de vos fichiers source (vous pouvez en mettre d'autres)
-SOURCES = Viewer.cpp main.cpp
+SOURCES = Viewer.cpp main.cpp Utils.cpp
 
 ###########################################################
 # Commentez/decommentez selon votre config/systeme
