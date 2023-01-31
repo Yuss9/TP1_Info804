@@ -4,13 +4,12 @@
 #include <sstream>
 #include <string>
 #include "Viewer.h"
-#include "Utils.h"
 
 using namespace std;
 int main(int argc, char **argv)
 {
   // // Read command lines arguments.
-  // QApplication application(argc,argv);
+  // QApplication application(argc, argv);
   // // Instantiate the viewer.
   // Viewer viewer;
   // // Give a name
@@ -21,13 +20,14 @@ int main(int argc, char **argv)
   // application.exec();
   // return 0;
 
+
+  // question 3.2 part2 affichage avec tref tri
+
   if (argc < 2)
   {
     std::cerr << "ERROR : missing file name" << std::endl;
     return -1;
   }
-
-  cout<<argv[1]<<endl;
 
   std::ifstream input(argv[1]);
   if (!input.good())
@@ -36,14 +36,15 @@ int main(int argc, char **argv)
     return -1;
   }
 
-  TriangleSoup soup;
-  soup.read(input);
-
+  QApplication application(argc, argv);
+  TriangleSoup iSoup;
+  iSoup.read(input);
+  Viewer viewer(&iSoup);
+  viewer.ptrSoup = &iSoup;
+  viewer.setWindowTitle("Viewer triangle soup");
   input.close();
-
-  cout<<"jai fini de lire"<<endl;
-
-  cout<<soup.triangles.size()<<endl;
+  viewer.show();
+  application.exec();
 
   return 0;
 }

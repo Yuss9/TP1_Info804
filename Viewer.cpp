@@ -1,37 +1,53 @@
 /// \file Viewer.cpp
 #include "Viewer.h"
-
 using namespace std;
 
 // Draws a tetrahedron with 4 colors.
 void Viewer::draw()
 {
-  float colorBronzeDiff[4] = { 0.8, 0.6, 0.0, 1.0 };
-  float colorRedDiff   [4] = { 1.0, 0.0, 0.0, 1.0 };
-  float colorGreenDiff [4] = { 0.0, 1.0, 0.0, 1.0 };
-  float colorBlueDiff  [4] = { 0.0, 0.0, 1.0, 1.0 };
+  // float colorBronzeDiff[4] = { 0.8, 0.6, 0.0, 1.0 };
+  // float colorRedDiff   [4] = { 1.0, 0.0, 0.0, 1.0 };
+  // float colorGreenDiff [4] = { 0.0, 1.0, 0.0, 1.0 };
+  // float colorBlueDiff  [4] = { 0.0, 0.0, 1.0, 1.0 };
 
-  // Draws triangles given by 3 vertices.
-  glBegin(GL_TRIANGLES);
-  glColor4fv(colorBronzeDiff);
-  glVertex3f( 0.0, 0.0, 0.0 );
-  glVertex3f( 1.0, 0.0, 0.0 );
-  glVertex3f( 0.0, 1.0, 0.0 );
-  glColor4fv(colorRedDiff);
-  glVertex3f( 1.0, 0.0, 0.0 );
-  glVertex3f( 0.0, 1.0, 0.0 );
-  glVertex3f( 0.0, 0.0, 1.0 );
-  glColor4fv(colorGreenDiff);
-  glVertex3f( 0.0, 0.0, 0.0 );
-  glVertex3f( 0.0, 1.0, 0.0 );
-  glVertex3f( 0.0, 0.0, 1.0 );
-  glColor4fv(colorBlueDiff);
-  glVertex3f( 0.0, 0.0, 0.0 );
-  glVertex3f( 1.0, 0.0, 0.0 );
-  glVertex3f( 0.0, 0.0, 1.0 );
-  glEnd();
+  // // Draws triangles given by 3 vertices.
+  // glBegin(GL_TRIANGLES);
+  // glColor4fv(colorBronzeDiff);
+  // glVertex3f( 0.0, 0.0, 0.0 );
+  // glVertex3f( 1.0, 0.0, 0.0 );
+  // glVertex3f( 0.0, 1.0, 0.0 );
+  // glColor4fv(colorRedDiff);
+  // glVertex3f( 1.0, 0.0, 0.0 );
+  // glVertex3f( 0.0, 1.0, 0.0 );
+  // glVertex3f( 0.0, 0.0, 1.0 );
+  // glColor4fv(colorGreenDiff);
+  // glVertex3f( 0.0, 0.0, 0.0 );
+  // glVertex3f( 0.0, 1.0, 0.0 );
+  // glVertex3f( 0.0, 0.0, 1.0 );
+  // glColor4fv(colorBlueDiff);
+  // glVertex3f( 0.0, 0.0, 0.0 );
+  // glVertex3f( 1.0, 0.0, 0.0 );
+  // glVertex3f( 0.0, 0.0, 1.0 );
+  // glEnd();
+
+  // question 3.2 part2 affichage avec tref tri
+
+  if (!ptrSoup)
+    return;
+  for (const Triangle &triangle : ptrSoup->triangles)
+  {
+
+    float colorRedDiff[4] = {1.0, 0.0, 0.0, 1.0};
+
+    glBegin(GL_TRIANGLES);
+    glColor4fv(colorRedDiff);
+
+    glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
+    glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
+    glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
+    glEnd();
+  }
 }
-
 
 void Viewer::init()
 {

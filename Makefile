@@ -1064,7 +1064,8 @@ Viewer.o: Viewer.cpp Viewer.h \
 		/usr/local/lib/QtGui.framework/Headers/QClipboard \
 		/usr/local/lib/QtGui.framework/Headers/qclipboard.h \
 		/usr/local/lib/QtCore.framework/Headers/QElapsedTimer \
-		/usr/local/lib/QtCore.framework/Headers/qelapsedtimer.h
+		/usr/local/lib/QtCore.framework/Headers/qelapsedtimer.h \
+		Utils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Viewer.o Viewer.cpp
 
 main.o: main.cpp /usr/local/lib/QtWidgets.framework/Headers/qapplication.h \
