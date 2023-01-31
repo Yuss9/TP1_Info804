@@ -50,21 +50,45 @@ void Viewer::draw()
 
   // question 3.4 Flat shading sur les faces
 
+  // if (!ptrSoup)
+  //   return;
+
+  // float colorBronzeDiff[4] = {0.8, 0.6, 0.0, 1.0};
+  // float colorBronzeSpec[4] = {1.0, 1.0, 0.4, 1.0};
+  // float colorNull[4] = {0.0, 0.0, 0.0, 1.0};
+
+  // // OpenGL met en place par défaut le modèle de Phong d'illumination.
+  // glBegin(GL_TRIANGLES);
+  // glEnable(GL_COLOR_MATERIAL);
+
+  // // Si vous les écrivez là, ces couleurs/réglages seront partagés par tous
+  // // les triangles.
+  // glColor4fv(colorBronzeDiff);
+  // glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
+  // glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
+  // glMaterialf(GL_FRONT, GL_SHININESS, 20.0f);
+
+  // for (const Triangle &triangle : ptrSoup->triangles)
+  // {
+  //   // Pour chaque triangle, avant les glVertex de chaque triangle:
+  //   const Triangle &T = triangle;
+  //   Vecteur n = T.normal();
+  //   glNormal3f(n[0], n[1], n[2]);
+  //   glBegin(GL_TRIANGLES);
+  //   glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
+  //   glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
+  //   glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
+  // }
+  // glDisable(GL_COLOR_MATERIAL);
+  // glEnd();
+
+  // 3.5 - Couleur ambiente / diffuse / spéculaire
+
   if (!ptrSoup)
     return;
 
-  float colorBronzeDiff[4] = {0.8, 0.6, 0.0, 1.0};
-  float colorBronzeSpec[4] = {1.0, 1.0, 0.4, 1.0};
-  float colorNull[4] = {0.0, 0.0, 0.0, 1.0};
-
-  // OpenGL met en place par défaut le modèle de Phong d'illumination.
   glBegin(GL_TRIANGLES);
-  // Si vous les écrivez là, ces couleurs/réglages seront partagés par tous
-  // les triangles.
-  glColor4fv(colorBronzeDiff);
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
-  glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
-  glMaterialf(GL_FRONT, GL_SHININESS, 20.0f);
+  glEnable(GL_COLOR_MATERIAL);
 
   for (const Triangle &triangle : ptrSoup->triangles)
   {
@@ -73,11 +97,31 @@ void Viewer::draw()
     Vecteur n = T.normal();
     glNormal3f(n[0], n[1], n[2]);
     glBegin(GL_TRIANGLES);
+
+    // Définir la couleur en utilisant les coordonnées des sommets
+    float r = fabs(fmod(triangle.getSommet1()[0], 1.0f));
+    float g = fabs(fmod(triangle.getSommet1()[1], 1.0f));
+    float b = fabs(fmod(triangle.getSommet1()[2], 1.0f));
+    glColor3f(r, g, b);
+
     glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
+
+    r = fabs(fmod(triangle.getSommet2()[0], 1.0f));
+    g = fabs(fmod(triangle.getSommet2()[1], 1.0f));
+    b = fabs(fmod(triangle.getSommet2()[2], 1.0f));
+    glColor3f(r, g, b);
+
     glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
+
+    r = fabs(fmod(triangle.getSommet3()[0], 1.0f));
+    g = fabs(fmod(triangle.getSommet3()[1], 1.0f));
+    b = fabs(fmod(triangle.getSommet3()[2], 1.0f));
+    glColor3f(r, g, b);
+
     glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
-    glEnd();
   }
+  glDisable(GL_COLOR_MATERIAL);
+  glEnd();
 }
 
 // old init
