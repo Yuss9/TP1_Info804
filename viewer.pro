@@ -8,7 +8,9 @@ QMAKE_CXXFLAGS = --std=c++11
 CONFIG *= qt opengl release c++11
 
 # config de Qt
-QT     *= opengl xml
+QT *= opengl xml
+QT += widgets
+QT += openglwidgets 
 
 # Noms de vos fichiers entete
 HEADERS = Viewer.h
@@ -23,15 +25,15 @@ SOURCES = Viewer.cpp main.cpp
 # Exemple de configuration Linux de Qt et libQGLViewer Qt5
 # Ubuntu 16.04
 # INCLUDEPATH *= /usr/include
-LIBS *= -L/usr/lib/x86_64-linux-gnu -lQGLViewer
+# LIBS *= -L/usr/lib/x86_64-linux-gnu -lQGLViewer
 
 # Exemple de configuration MacOSX avec macports
 # INCLUDEPATH *= /opt/local/include
 # LIBS *= -L/opt/local/lib -lQGLViewer 
 
 # Exemple de configuration MacOSX avec frameworks
-# INCLUDEPATH *= /Users/login/libQGLViewer-2.6.4
-# LIBS *= -F/Users/login/Library/Frameworks -framework QGLViewer
+ INCLUDEPATH *= /Users/huseyinyurtseven/Downloads/libQGLViewer-2.9.1
+ LIBS *= -F/Users/huseyinyurtseven/Downloads/libQGLViewer-2.9.1/QGLViewer -framework QGLViewer
 
 # Exemple de configuration Windows :
 # LIBS *= -lopengl32 -lglu32
