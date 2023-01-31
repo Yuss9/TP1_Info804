@@ -1,21 +1,21 @@
 <!DOCTYPE QGLVIEWER>
 <QGLViewer version="2.9.1">
   <State stereo="false">
-    <foregroundColor blue="180" green="180" red="180"/>
-    <backgroundColor blue="51" green="51" red="51"/>
+    <foregroundColor blue="180" red="180" green="180"/>
+    <backgroundColor blue="51" red="51" green="51"/>
   </State>
-  <Display axisIsDrawn="false" FPSIsDisplayed="false" gridIsDrawn="false" cameraIsEdited="false"/>
-  <Geometry width="600" posY="303" height="400" posX="735" fullScreen="false"/>
+  <Display cameraIsEdited="false" FPSIsDisplayed="true" gridIsDrawn="false" axisIsDrawn="true"/>
+  <Geometry fullScreen="false" posY="222" height="400" width="600" posX="688"/>
   <Camera>
-    <Parameters sceneRadius="1" fieldOfView="0.785398" zNearCoefficient="0.005" zClippingCoefficient="1.73205" Type="PERSPECTIVE" orthoCoef="0.414214">
+    <Parameters orthoCoef="0.414214" zClippingCoefficient="1.73205" zNearCoefficient="0.005" Type="PERSPECTIVE" sceneRadius="1" fieldOfView="0.785398">
       <SceneCenter y="0" x="0" z="0"/>
     </Parameters>
-    <Stereo focusDistance="2.41421" physScreenWidth="0.5" IODist="0.062"/>
+    <Stereo physScreenWidth="0.5" focusDistance="2.41421" IODist="0.062"/>
     <ManipulatedCameraFrame>
-      <position y="0.510504" x="-0.705776" z="2.46367"/>
-      <orientation q1="-0.162887" q0="-0.0454326" q2="-0.341845" q3="0.924417"/>
-      <ManipulatedParameters transSens="1" spinSens="0.3" zoomSens="1" rotSens="1" wheelSens="1"/>
-      <ManipulatedCameraParameters flySpeed="0.01" zoomsOnPivotPoint="false" rotatesAroundUpVector="false">
+      <position y="1.83936" x="-0.954477" z="1.5919"/>
+      <orientation q0="-0.188452" q3="0.713154" q1="-0.399861" q2="-0.544067"/>
+      <ManipulatedParameters zoomSens="1" spinSens="0.3" wheelSens="1" transSens="1" rotSens="1"/>
+      <ManipulatedCameraParameters zoomsOnPivotPoint="false" flySpeed="0.01" rotatesAroundUpVector="false">
         <sceneUpVector y="1" x="0" z="0"/>
       </ManipulatedCameraParameters>
     </ManipulatedCameraFrame>
