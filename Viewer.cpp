@@ -72,11 +72,7 @@ void Viewer::draw()
     const Triangle &T = triangle;
     Vecteur n = T.normal();
     glNormal3f(n[0], n[1], n[2]);
-
-    float colorRedDiff[4] = {1.0, 0.0, 0.0, 1.0};
     glBegin(GL_TRIANGLES);
-    glColor4fv(colorRedDiff);
-
     glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
     glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
     glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);

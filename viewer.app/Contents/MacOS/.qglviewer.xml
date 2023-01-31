@@ -1,22 +1,22 @@
 <!DOCTYPE QGLVIEWER>
 <QGLViewer version="2.9.1">
   <State stereo="false">
-    <foregroundColor blue="180" red="180" green="180"/>
-    <backgroundColor blue="51" red="51" green="51"/>
+    <foregroundColor red="180" blue="180" green="180"/>
+    <backgroundColor red="51" blue="51" green="51"/>
   </State>
-  <Display axisIsDrawn="false" FPSIsDisplayed="false" cameraIsEdited="false" gridIsDrawn="false"/>
-  <Geometry width="600" fullScreen="false" height="400" posX="-1279" posY="185"/>
+  <Display gridIsDrawn="false" FPSIsDisplayed="false" axisIsDrawn="false" cameraIsEdited="false"/>
+  <Geometry posY="185" width="600" posX="-1279" fullScreen="false" height="400"/>
   <Camera>
-    <Parameters orthoCoef="0.418941" zClippingCoefficient="1.73205" Type="PERSPECTIVE" zNearCoefficient="0.005" sceneRadius="8.44094" fieldOfView="0.785398">
-      <SceneCenter y="0.0244651" x="0.42095" z="0.0294901"/>
+    <Parameters zClippingCoefficient="1.73205" sceneRadius="8.44094" fieldOfView="0.785398" orthoCoef="0.418941" zNearCoefficient="0.005" Type="PERSPECTIVE">
+      <SceneCenter x="0.42095" y="0.0244651" z="0.0294901"/>
     </Parameters>
-    <Stereo IODist="0.062" focusDistance="20.3782" physScreenWidth="0.5"/>
+    <Stereo IODist="0.062" physScreenWidth="0.5" focusDistance="20.3782"/>
     <ManipulatedCameraFrame>
-      <position y="9.86736" x="5.43695" z="19.1208"/>
-      <orientation q0="0.24658" q1="0.0801895" q2="0.683144" q3="-0.682702"/>
-      <ManipulatedParameters spinSens="0.3" transSens="1" wheelSens="1" rotSens="1" zoomSens="1"/>
+      <position x="0.42095" y="0.0244651" z="22.0867"/>
+      <orientation q1="0" q3="1" q2="0" q0="0"/>
+      <ManipulatedParameters wheelSens="1" rotSens="1" transSens="1" zoomSens="1" spinSens="0.3"/>
       <ManipulatedCameraParameters rotatesAroundUpVector="false" flySpeed="0.0844094" zoomsOnPivotPoint="false">
-        <sceneUpVector y="1" x="0" z="0"/>
+        <sceneUpVector x="0" y="1" z="0"/>
       </ManipulatedCameraParameters>
     </ManipulatedCameraFrame>
   </Camera>
