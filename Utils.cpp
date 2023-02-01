@@ -156,7 +156,29 @@ TriangleSoupZipper::TriangleSoupZipper(const TriangleSoup &anInput, TriangleSoup
 {
     Vecteur low, up;
     input.boundingBox(low, up);
-    Vecteur diff = up - low;
-    // a revoir comment calculer la taille des cellules
-    //cellSize = Vecteur(diff[0] / size, diff[1] / size, diff[2] / size);
+
+    // Calcul des tailles réelles de chaque cellule
+    xSize = (up[0] - low[0]) / size[0];
+    ySize = (up[1] - low[1]) / size[1];
+    zSize = (up[2] - low[2]) / size[2];
+}
+
+Index TriangleSoupZipper::index(const Vecteur &p) const
+{
+    Vecteur low, up;
+    input.boundingBox(low, up);
+    return Index(
+        (p[0] - low[0]) / xSize,
+        (p[1] - low[1]) / ySize,
+        (p[2] - low[2]) / zSize);
+}
+
+Vecteur TriangleSoupZipper::centroid(const Index &idx) const
+{
+    Vecteur low, up;
+    input.boundingBox(low, up);
+    return Vecteur(
+        low[0] + (idx[0] + 0.5) * xSize,
+        low[1] + (idx[1] + 0.5) * ySize,
+        low[2] + (idx[2] + 0.5) * zSize);
 }

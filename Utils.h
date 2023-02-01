@@ -80,13 +80,22 @@ struct Index
 
 struct TriangleSoupZipper
 {
+
+    // methode
     TriangleSoupZipper(const TriangleSoup &anInput, TriangleSoup &anOutput, Index size);
+    // zip la soupe de triangles en entrée vers la soupe de triangles en sortie
     void zip();
 
+    /// return l'index de la cellule dans laquelle tombe p.
+    Index index(const Vecteur &p) const;
+    /// return le centroïde de la cellule d'index idx (son "centre").
+    Vecteur centroid(const Index &idx) const;
+
+    // variable
     const TriangleSoup &input;
     TriangleSoup &output;
     Index size;
-    Vecteur cellSize;
-
-    // zip la soupe de triangles en entrée vers la soupe de triangles en sortie
+    int xSize;
+    int ySize;
+    int zSize;
 };
