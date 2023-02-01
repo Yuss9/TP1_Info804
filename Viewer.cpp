@@ -2,88 +2,94 @@
 #include "Viewer.h"
 using namespace std;
 
-// Draws a tetrahedron with 4 colors.
-void Viewer::draw()
+void drawinit()
 {
-  // float colorBronzeDiff[4] = { 0.8, 0.6, 0.0, 1.0 };
-  // float colorRedDiff   [4] = { 1.0, 0.0, 0.0, 1.0 };
-  // float colorGreenDiff [4] = { 0.0, 1.0, 0.0, 1.0 };
-  // float colorBlueDiff  [4] = { 0.0, 0.0, 1.0, 1.0 };
+  float colorBronzeDiff[4] = {0.8, 0.6, 0.0, 1.0};
+  float colorRedDiff[4] = {1.0, 0.0, 0.0, 1.0};
+  float colorGreenDiff[4] = {0.0, 1.0, 0.0, 1.0};
+  float colorBlueDiff[4] = {0.0, 0.0, 1.0, 1.0};
 
-  // // Draws triangles given by 3 vertices.
-  // glBegin(GL_TRIANGLES);
-  // glColor4fv(colorBronzeDiff);
-  // glVertex3f( 0.0, 0.0, 0.0 );
-  // glVertex3f( 1.0, 0.0, 0.0 );
-  // glVertex3f( 0.0, 1.0, 0.0 );
-  // glColor4fv(colorRedDiff);
-  // glVertex3f( 1.0, 0.0, 0.0 );
-  // glVertex3f( 0.0, 1.0, 0.0 );
-  // glVertex3f( 0.0, 0.0, 1.0 );
-  // glColor4fv(colorGreenDiff);
-  // glVertex3f( 0.0, 0.0, 0.0 );
-  // glVertex3f( 0.0, 1.0, 0.0 );
-  // glVertex3f( 0.0, 0.0, 1.0 );
-  // glColor4fv(colorBlueDiff);
-  // glVertex3f( 0.0, 0.0, 0.0 );
-  // glVertex3f( 1.0, 0.0, 0.0 );
-  // glVertex3f( 0.0, 0.0, 1.0 );
-  // glEnd();
+  // Draws triangles given by 3 vertices.
+  glBegin(GL_TRIANGLES);
+  glColor4fv(colorBronzeDiff);
+  glVertex3f(0.0, 0.0, 0.0);
+  glVertex3f(1.0, 0.0, 0.0);
+  glVertex3f(0.0, 1.0, 0.0);
+  glColor4fv(colorRedDiff);
+  glVertex3f(1.0, 0.0, 0.0);
+  glVertex3f(0.0, 1.0, 0.0);
+  glVertex3f(0.0, 0.0, 1.0);
+  glColor4fv(colorGreenDiff);
+  glVertex3f(0.0, 0.0, 0.0);
+  glVertex3f(0.0, 1.0, 0.0);
+  glVertex3f(0.0, 0.0, 1.0);
+  glColor4fv(colorBlueDiff);
+  glVertex3f(0.0, 0.0, 0.0);
+  glVertex3f(1.0, 0.0, 0.0);
+  glVertex3f(0.0, 0.0, 1.0);
+  glEnd();
+}
 
-  // question 3.2 part2 affichage avec tref tri
+// question 3.2 part2 affichage avec tref tri
+void drawInput(const TriangleSoup *ptrSoup)
+{
+  if (!ptrSoup)
+    return;
 
-  // if (!ptrSoup)
-  //   return;
+  for (const Triangle &triangle : ptrSoup->triangles)
+  {
 
-  // for (const Triangle &triangle : ptrSoup->triangles)
-  // {
+    float colorRedDiff[4] = {1.0, 0.0, 0.0, 1.0};
+    glBegin(GL_TRIANGLES);
+    glColor4fv(colorRedDiff);
 
-  //   float colorRedDiff[4] = {1.0, 0.0, 0.0, 1.0};
-  //   glBegin(GL_TRIANGLES);
-  //   glColor4fv(colorRedDiff);
+    glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
+    glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
+    glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
+    glEnd();
+  }
+}
 
-  //   glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
-  //   glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
-  //   glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
-  //   glEnd();
-  // }
+// question 3.4 Flat shading sur les faces
+void drawFlatShading(const TriangleSoup *ptrSoup)
+{
 
-  // question 3.4 Flat shading sur les faces
+  if (!ptrSoup)
+    return;
 
-  // if (!ptrSoup)
-  //   return;
+  float colorBronzeDiff[4] = {0.8, 0.6, 0.0, 1.0};
+  float colorBronzeSpec[4] = {1.0, 1.0, 0.4, 1.0};
+  float colorNull[4] = {0.0, 0.0, 0.0, 1.0};
 
-  // float colorBronzeDiff[4] = {0.8, 0.6, 0.0, 1.0};
-  // float colorBronzeSpec[4] = {1.0, 1.0, 0.4, 1.0};
-  // float colorNull[4] = {0.0, 0.0, 0.0, 1.0};
+  // OpenGL met en place par défaut le modèle de Phong d'illumination.
+  glBegin(GL_TRIANGLES);
+  glEnable(GL_COLOR_MATERIAL);
 
-  // // OpenGL met en place par défaut le modèle de Phong d'illumination.
-  // glBegin(GL_TRIANGLES);
-  // glEnable(GL_COLOR_MATERIAL);
+  // Si vous les écrivez là, ces couleurs/réglages seront partagés par tous
+  // les triangles.
+  glColor4fv(colorBronzeDiff);
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
+  glMaterialf(GL_FRONT, GL_SHININESS, 20.0f);
 
-  // // Si vous les écrivez là, ces couleurs/réglages seront partagés par tous
-  // // les triangles.
-  // glColor4fv(colorBronzeDiff);
-  // glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
-  // glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
-  // glMaterialf(GL_FRONT, GL_SHININESS, 20.0f);
+  for (const Triangle &triangle : ptrSoup->triangles)
+  {
+    // Pour chaque triangle, avant les glVertex de chaque triangle:
+    const Triangle &T = triangle;
+    Vecteur n = T.normal();
+    glNormal3f(n[0], n[1], n[2]);
+    glBegin(GL_TRIANGLES);
+    glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
+    glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
+    glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
+  }
+  glDisable(GL_COLOR_MATERIAL);
+  glEnd();
+}
 
-  // for (const Triangle &triangle : ptrSoup->triangles)
-  // {
-  //   // Pour chaque triangle, avant les glVertex de chaque triangle:
-  //   const Triangle &T = triangle;
-  //   Vecteur n = T.normal();
-  //   glNormal3f(n[0], n[1], n[2]);
-  //   glBegin(GL_TRIANGLES);
-  //   glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
-  //   glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
-  //   glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
-  // }
-  // glDisable(GL_COLOR_MATERIAL);
-  // glEnd();
-
-  // 3.5 - Couleur ambiente / diffuse / spéculaire
-
+// 3.5 - Couleur ambiente / diffuse / spéculaire affichage avec plusieurs couleurs
+void drawMultiColor(const TriangleSoup *ptrSoup)
+{
   if (!ptrSoup)
     return;
 
@@ -122,6 +128,14 @@ void Viewer::draw()
   }
   glDisable(GL_COLOR_MATERIAL);
   glEnd();
+}
+
+// Draws a tetrahedron with 4 colors.
+void Viewer::draw()
+{
+  // drawMultiColor(ptrSoup);
+  drawFlatShading(ptrSoup);
+  // drawInput(ptrSoup);
 }
 
 // old init

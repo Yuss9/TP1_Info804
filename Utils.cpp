@@ -148,3 +148,15 @@ void TriangleSoup::boundingBox(Vecteur &low, Vecteur &up) const
         up = up.sup(triangles[i].getSommet3());
     }
 }
+
+// TriangleSoupZipper et Index
+
+TriangleSoupZipper::TriangleSoupZipper(const TriangleSoup &anInput, TriangleSoup &anOutput, Index size)
+    : input(anInput), output(anOutput), size(size)
+{
+    Vecteur low, up;
+    input.boundingBox(low, up);
+    Vecteur diff = up - low;
+    // a revoir comment calculer la taille des cellules
+    //cellSize = Vecteur(diff[0] / size, diff[1] / size, diff[2] / size);
+}

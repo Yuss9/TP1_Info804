@@ -51,3 +51,42 @@ struct TriangleSoup
     void read(std::istream &in);
     void boundingBox(Vecteur &low, Vecteur &up) const;
 };
+
+/// Définit un index sur 3 entiers. Toutes les opérations usuelles
+/// sont surchargées (accès, comparaisons, égalité).
+struct Index
+{
+    int idx[3];
+    Index() {}
+    Index(int i0, int i1, int i2)
+    {
+        idx[0] = i0;
+        idx[1] = i1;
+        idx[2] = i2;
+    }
+    Index(int indices[])
+    {
+        idx[0] = indices[0];
+        idx[1] = indices[1];
+        idx[2] = indices[2];
+    }
+    int operator[](int i) const { return idx[i]; }
+    int &operator[](int i) { return idx[i]; }
+    bool operator<(const Index &other) const
+    {
+        return (idx[0] < other.idx[0]) || ((idx[0] == other.idx[0]) && ((idx[1] < other.idx[1]) || ((idx[1] == other.idx[1]) && (idx[2] < other.idx[2]))));
+    }
+};
+
+struct TriangleSoupZipper
+{
+    TriangleSoupZipper(const TriangleSoup &anInput, TriangleSoup &anOutput, Index size);
+    void zip();
+
+    const TriangleSoup &input;
+    TriangleSoup &output;
+    Index size;
+    Vecteur cellSize;
+
+    // zip la soupe de triangles en entrée vers la soupe de triangles en sortie
+};
