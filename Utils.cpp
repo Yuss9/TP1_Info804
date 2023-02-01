@@ -185,16 +185,26 @@ Vecteur TriangleSoupZipper::centroid(const Index &idx) const
 
 void TriangleSoupZipper::zip()
 {
+
+    int i = 0;
     // Pour chaque triangle de la soupe en entrée
     for (Triangle t : input.triangles)
-    {
+    {   
+
+        cout<< i<<endl;
+        i++;
+
         // Calcule les indices des sommets du triangle
         Index i1 = index(t.getSommet1());
         Index i2 = index(t.getSommet2());
         Index i3 = index(t.getSommet3());
-        // Si les indices sont différents, ajoute un triangle à la soupe en sortie
-        if (i1 != i2 && i2 != i3 && i1 != i3)
-        {
+
+        // cout << "i1 : " << i1[0] << " " << i1[1] << " " << i1[2] << endl;
+
+        //Si les indices sont différents, ajoute un triangle à la soupe en sortie
+        if (i1 != i2 || i2 != i3 || i1 != i3)
+        {   
+            //cout<<"dans le if"<<endl;
             output.triangles.push_back(Triangle(centroid(i1), centroid(i2), centroid(i3)));
         }
     }

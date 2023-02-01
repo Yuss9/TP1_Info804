@@ -133,9 +133,9 @@ void drawMultiColor(const TriangleSoup *ptrSoup)
 // Draws a tetrahedron with 4 colors.
 void Viewer::draw()
 {
-  // drawMultiColor(ptrSoup);
+  //drawMultiColor(ptrSoup);
   drawFlatShading(ptrSoup);
-  // drawInput(ptrSoup);
+  //drawInput(ptrSoup);
 }
 
 // old init
