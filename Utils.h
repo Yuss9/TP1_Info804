@@ -72,6 +72,13 @@ struct Index
     }
     int operator[](int i) const { return idx[i]; }
     int &operator[](int i) { return idx[i]; }
+
+    //operator different
+    bool operator!=(const Index &other) const
+    {
+        return (idx[0] != other.idx[0]) || (idx[1] != other.idx[1]) || (idx[2] != other.idx[2]);
+    }
+
     bool operator<(const Index &other) const
     {
         return (idx[0] < other.idx[0]) || ((idx[0] == other.idx[0]) && ((idx[1] < other.idx[1]) || ((idx[1] == other.idx[1]) && (idx[2] < other.idx[2]))));
