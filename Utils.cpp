@@ -76,7 +76,29 @@ Vecteur Vecteur::operator-(const Vecteur &other) const
     return res;
 }
 
-std::ostream &operator<<(std::ostream &out, Vecteur v)
+Vecteur Vecteur::divise(const Vecteur &v, int scalar)
+{
+    Vecteur res;
+    for (int i = 0; i < 3; i++)
+    {
+        res[i] = v[i] / scalar;
+    }
+    return res;
+}
+
+// operator +
+Vecteur Vecteur::operator+(const Vecteur &other) const
+{
+    Vecteur res;
+    for (int i = 0; i < 3; i++)
+    {
+        res[i] = xyz[i] + other[i];
+    }
+    return res;
+}
+
+std::ostream &
+operator<<(std::ostream &out, Vecteur v)
 {
     out << v[0] << " " << v[1] << " " << v[2];
     return out;
@@ -120,6 +142,7 @@ std::istream &operator>>(std::istream &in, Triangle &t)
 }
 
 TriangleSoup::TriangleSoup() {}
+
 void TriangleSoup::read(std::istream &in)
 {
     std::string line;
@@ -185,13 +208,71 @@ Vecteur TriangleSoupZipper::centroid(const Index &idx) const
 
 void TriangleSoupZipper::zip()
 {
-
     int i = 0;
     // Pour chaque triangle de la soupe en entrée
     for (Triangle t : input.triangles)
-    {   
+    {
+        cout << i << endl;
+        i++;
+        // Calcule les indices des sommets du triangle
+        Index i1 = index(t.getSommet1());
+        Index i2 = index(t.getSommet2());
+        Index i3 = index(t.getSommet3());
 
-        cout<< i<<endl;
+        // cout << "i1 : " << i1[0] << " " << i1[1] << " " << i1[2] << endl;
+        // Si les indices sont différents, ajoute un triangle à la soupe en sortie
+        if (i1 != i2 || i2 != i3 || i1 != i3)
+        {
+            // cout<<"dans le if"<<endl;
+            output.triangles.push_back(Triangle(centroid(i1), centroid(i2), centroid(i3)));
+        }
+    }
+}
+
+void TriangleSoupZipper::zipBis()
+{
+    int i = 0;
+
+    cout<<"le nombre de triangle en entree est : "<<input.triangles.size()<<endl;
+
+    // Pour chaque triangle de la soupe en entrée
+    for (Triangle t : input.triangles)
+    {
+        cout << "Triangle numero dans le zipBis : " << i << endl;
+        i++;
+        // Calcule les indices des sommets du triangle
+        Index i1 = index(t.getSommet1());
+        Index i2 = index(t.getSommet2());
+        Index i3 = index(t.getSommet3());
+
+        // Ajoutez chaque sommet du triangle à la cellule correspondante
+        index2data[i1].add(t.getSommet1());
+        index2data[i2].add(t.getSommet2());
+        index2data[i3].add(t.getSommet3());
+
+        // Si les indices sont différents, ajoutez un triangle à la soupe en sortie
+        if (i1 != i2 || i2 != i3 || i1 != i3)
+        {
+            output.triangles.push_back(Triangle(centroid(i1), centroid(i2), centroid(i3)));
+        }
+    }
+}
+
+void TriangleSoupZipper::smartZip()
+{
+    index2data.clear(); // nettoyez index2data
+    zipBis();           // appelez zip()
+
+    // Réinitialisez la soupe en sortie
+    output.triangles.clear();
+
+    int i = 0;
+
+    // Pour chaque triangle de la soupe en sortie
+    for (Triangle t : input.triangles)
+    {
+
+        cout << "Triangle numero dans le smartZip : " << i << endl;
         i++;
 
         // Calcule les indices des sommets du triangle
@@ -199,13 +280,24 @@ void TriangleSoupZipper::zip()
         Index i2 = index(t.getSommet2());
         Index i3 = index(t.getSommet3());
 
-        // cout << "i1 : " << i1[0] << " " << i1[1] << " " << i1[2] << endl;
-
-        //Si les indices sont différents, ajoute un triangle à la soupe en sortie
-        if (i1 != i2 || i2 != i3 || i1 != i3)
-        {   
-            //cout<<"dans le if"<<endl;
-            output.triangles.push_back(Triangle(centroid(i1), centroid(i2), centroid(i3)));
-        }
+        // Replacer chaque sommet du triangle avec son barycentre
+        output.triangles.push_back(Triangle(index2data[i1].barycenter(),
+                                            index2data[i2].barycenter(),
+                                            index2data[i3].barycenter()));
     }
+}
+
+// CellData
+void CellData::add(const Vecteur &v)
+{
+    acc = acc + v;
+    nb++;
+}
+
+Vecteur CellData::barycenter() const
+{
+    Vecteur v;
+    v.divise(acc, nb);
+    // Retourne le barycentre de tous les points ajoutés.
+    return v;
 }

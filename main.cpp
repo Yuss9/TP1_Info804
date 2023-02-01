@@ -78,7 +78,7 @@ int testCompressionBunny(int argc, char **argv)
   // question 3.3 compression bunny
 
   TriangleSoupZipper zipper = TriangleSoupZipper(iSoup, iSoupOut, size);
-  zipper.zip();
+  zipper.smartZip();
 
   Viewer viewer(&iSoupOut);
   

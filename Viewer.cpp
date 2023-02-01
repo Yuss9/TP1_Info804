@@ -59,7 +59,7 @@ void drawFlatShading(const TriangleSoup *ptrSoup)
 
   float colorBronzeDiff[4] = {0.8, 0.6, 0.0, 1.0};
   float colorBronzeSpec[4] = {1.0, 1.0, 0.4, 1.0};
-  float colorNull[4] = {0.0, 0.0, 0.0, 1.0};
+  // float colorNull[4] = {0.0, 0.0, 0.0, 1.0};
 
   // OpenGL met en place par défaut le modèle de Phong d'illumination.
   glBegin(GL_TRIANGLES);
@@ -133,9 +133,9 @@ void drawMultiColor(const TriangleSoup *ptrSoup)
 // Draws a tetrahedron with 4 colors.
 void Viewer::draw()
 {
-  //drawMultiColor(ptrSoup);
+  // drawMultiColor(ptrSoup);
   drawFlatShading(ptrSoup);
-  //drawInput(ptrSoup);
+  // drawInput(ptrSoup);
 }
 
 // old init

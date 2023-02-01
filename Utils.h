@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <map>
 using namespace std;
 
 struct Vecteur
@@ -21,8 +22,13 @@ struct Vecteur
     // Retourne le vecteur dont les composantes sont les maxima des
     // composantes de soi-même et de other.
     Vecteur sup(const Vecteur &other) const;
+    Vecteur divise(const Vecteur &v, int scalar);
+
+
+
     Vecteur cross(const Vecteur &other) const;
     Vecteur operator-(const Vecteur &other) const;
+    Vecteur operator+(const Vecteur &other) const;
 };
 std::ostream &operator<<(std::ostream &out, Vecteur v);
 std::istream &operator>>(std::istream &in, Vecteur &v);
@@ -73,7 +79,7 @@ struct Index
     int operator[](int i) const { return idx[i]; }
     int &operator[](int i) { return idx[i]; }
 
-    //operator different
+    // operator different
     bool operator!=(const Index &other) const
     {
         return (idx[0] != other.idx[0]) || (idx[1] != other.idx[1]) || (idx[2] != other.idx[2]);
@@ -85,6 +91,19 @@ struct Index
     }
 };
 
+// Structure pour calculer le barycentre d'un ensemble de points.
+struct CellData
+{
+    Vecteur acc;
+    int nb;
+    // Crée un accumulateur vide.
+    CellData() : acc(), nb(0) {}
+    // Ajoute le point v à l'accumulateur.
+    void add(const Vecteur &v);
+    // Retourne le barycentre de tous les points ajoutés.
+    Vecteur barycenter() const;
+};
+
 struct TriangleSoupZipper
 {
 
@@ -92,11 +111,13 @@ struct TriangleSoupZipper
     TriangleSoupZipper(const TriangleSoup &anInput, TriangleSoup &anOutput, Index size);
     // zip la soupe de triangles en entrée vers la soupe de triangles en sortie
     void zip();
-
+    void zipBis();   // modifié pour la derniere question 4.4
+    void smartZip(); // modifié pour la derniere question 4.4 + smart
     /// return l'index de la cellule dans laquelle tombe p.
     Index index(const Vecteur &p) const;
     /// return le centroïde de la cellule d'index idx (son "centre").
     Vecteur centroid(const Index &idx) const;
+    std::map<Index, CellData> index2data;
 
     // variable
     const TriangleSoup &input;
@@ -105,4 +126,5 @@ struct TriangleSoupZipper
     int xSize;
     int ySize;
     int zSize;
+
 };
