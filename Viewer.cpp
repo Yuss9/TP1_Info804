@@ -59,7 +59,7 @@ void drawFlatShading(const TriangleSoup *ptrSoup)
 
   float colorBronzeDiff[4] = {0.8, 0.6, 0.0, 1.0};
   float colorBronzeSpec[4] = {1.0, 1.0, 0.4, 1.0};
-  // float colorNull[4] = {0.0, 0.0, 0.0, 1.0};
+  float colorNull[4] = {0.0, 0.0, 0.0, 1.0};
 
   // OpenGL met en place par défaut le modèle de Phong d'illumination.
   glBegin(GL_TRIANGLES);
@@ -71,31 +71,17 @@ void drawFlatShading(const TriangleSoup *ptrSoup)
   glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
   glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
   glMaterialf(GL_FRONT, GL_SHININESS, 20.0f);
-  glBegin(GL_TRIANGLES);
-
-  // for (const Triangle &triangle : ptrSoup->triangles)
-  // {
-  //   // Pour chaque triangle, avant les glVertex de chaque triangle:
-  //   const Triangle &T = triangle;
-  //   Vecteur n = T.normal();
-  //   glNormal3f(n[0], n[1], n[2]);
-  //   glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
-  //   glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
-  //   glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
-  // }
-
-  for (std::vector<Triangle>::const_iterator it = ptrSoup->triangles.begin(), itE = ptrSoup->triangles.end(); it != itE; ++it)
+  for (const Triangle &triangle : ptrSoup->triangles)
   {
-    const Triangle &T = *(it);
+    // Pour chaque triangle, avant les glVertex de chaque triangle:
+    const Triangle &T = triangle;
     Vecteur n = T.normal();
     glNormal3f(n[0], n[1], n[2]);
-    for (int i = 0; i < 3; ++i)
-    {
-      glVertex3f((*it)[i][0],
-                 (*it)[i][1],
-                 (*it)[i][2]);
-    }
+    glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
+    glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
+    glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
   }
+
   glDisable(GL_COLOR_MATERIAL);
   glEnd();
 }

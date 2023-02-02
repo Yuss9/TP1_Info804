@@ -24,7 +24,7 @@ Vecteur::Vecteur() : Vecteur(0, 0, 0) {}
 
 float Vecteur::operator[](int i) const { return xyz[i]; }
 
-float &Vecteur::operator[](int i) { return xyz[i]; }
+float& Vecteur::operator[](int i) { return xyz[i]; }
 
 // Retourne le vecteur dont les composantes sont les minima des
 // composantes de soi-même et de other.
@@ -59,13 +59,13 @@ Vecteur Vecteur::cross(const Vecteur &other) const
 
 // normalise le vecteur
 Vecteur Vecteur::normalize()
-
 {
     float norm = sqrt(xyz[0] * xyz[0] + xyz[1] * xyz[1] + xyz[2] * xyz[2]);
     for (int i = 0; i < 3; i++)
     {
         xyz[i] = xyz[i] / norm;
     }
+    return *this;
 }
 
 // soustraction de vecteurs

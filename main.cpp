@@ -22,7 +22,7 @@ using namespace std;
 //   return 0;
 // }
 
-int printTrefTri(int argc, char **argv)
+int PrintQ1(int argc, char **argv)
 {
   // question 3.2 part2 affichage avec tref tri
 
@@ -33,6 +33,11 @@ int printTrefTri(int argc, char **argv)
   }
 
   std::ifstream input(argv[1]);
+  if (!input.good())
+  {
+    std::cerr << "ERROR : could not open file" << std::endl;
+    return -1;
+  }
 
   QApplication application(argc, argv);
   TriangleSoup iSoup;
@@ -87,6 +92,6 @@ int testCompressionBunny(int argc, char **argv)
 
 int main(int argc, char **argv)
 {
-  // testCompressionBunny(argc, argv);
-  printTrefTri(argc, argv);
+  testCompressionBunny(argc, argv);
+  //PrintQ1(argc, argv);
 }
