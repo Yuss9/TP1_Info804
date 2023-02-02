@@ -71,17 +71,30 @@ void drawFlatShading(const TriangleSoup *ptrSoup)
   glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
   glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
   glMaterialf(GL_FRONT, GL_SHININESS, 20.0f);
+  glBegin(GL_TRIANGLES);
 
-  for (const Triangle &triangle : ptrSoup->triangles)
+  // for (const Triangle &triangle : ptrSoup->triangles)
+  // {
+  //   // Pour chaque triangle, avant les glVertex de chaque triangle:
+  //   const Triangle &T = triangle;
+  //   Vecteur n = T.normal();
+  //   glNormal3f(n[0], n[1], n[2]);
+  //   glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
+  //   glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
+  //   glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
+  // }
+
+  for (std::vector<Triangle>::const_iterator it = ptrSoup->triangles.begin(), itE = ptrSoup->triangles.end(); it != itE; ++it)
   {
-    // Pour chaque triangle, avant les glVertex de chaque triangle:
-    const Triangle &T = triangle;
+    const Triangle &T = *(it);
     Vecteur n = T.normal();
     glNormal3f(n[0], n[1], n[2]);
-    glBegin(GL_TRIANGLES);
-    glVertex3f(triangle.getSommet1()[0], triangle.getSommet1()[1], triangle.getSommet1()[2]);
-    glVertex3f(triangle.getSommet2()[0], triangle.getSommet2()[1], triangle.getSommet2()[2]);
-    glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
+    for (int i = 0; i < 3; ++i)
+    {
+      glVertex3f((*it)[i][0],
+                 (*it)[i][1],
+                 (*it)[i][2]);
+    }
   }
   glDisable(GL_COLOR_MATERIAL);
   glEnd();
@@ -130,12 +143,40 @@ void drawMultiColor(const TriangleSoup *ptrSoup)
   glEnd();
 }
 
+void draw4color(const TriangleSoup *ptrSoup)
+{
+  float colorBronzeDiff[4] = {0.8, 0.6, 0.0, 1.0};
+  float colors[4][4] = {{0.8, 0.6, 0.0, 1.0}, {1.0, 0.5, 0.0, 1.0}, {0.0, 1.0, 0.4, 1.0}, {0.0, 0.2, 1.0, 1.0}};
+  int colorId = 0;
+  float colorBronzeSpec[4] = {1.0, 1.0, 0.4, 1.0};
+  //  Draws triangles given by 3 vertices.
+  glBegin(GL_TRIANGLES);
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
+  glMaterialf(GL_FRONT, GL_SHININESS, 20.0f);
+  for (std::vector<Triangle>::const_iterator it = ptrSoup->triangles.begin(), itE = ptrSoup->triangles.end(); it != itE; ++it)
+  {
+    const Triangle &T = *(it);
+    Vecteur n = T.normal();
+    glNormal3f(n[0], n[1], n[2]);
+    for (int i = 0; i < 3; ++i)
+    {
+      glVertex3f((*it)[i][0],
+                 (*it)[i][1],
+                 (*it)[i][2]);
+    }
+    glColor4fv(colors[(colorId++) % 4]);
+  }
+  glEnd();
+}
+
 // Draws a tetrahedron with 4 colors.
 void Viewer::draw()
 {
   // drawMultiColor(ptrSoup);
   drawFlatShading(ptrSoup);
   // drawInput(ptrSoup);
+  //  draw4color(ptrSoup);
 }
 
 // old init

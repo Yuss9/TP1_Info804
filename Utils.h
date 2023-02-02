@@ -14,7 +14,7 @@ struct Vecteur
     Vecteur();                          // constructeur par defaut
     float operator[](int i) const;      // accesseur en lecture
     float &operator[](int i);           // accesseur en ecriture
-    void normalize();
+    Vecteur normalize();
 
     // Retourne le vecteur dont les composantes sont les minima des
     // composantes de soi-même et de other.
@@ -22,12 +22,10 @@ struct Vecteur
     // Retourne le vecteur dont les composantes sont les maxima des
     // composantes de soi-même et de other.
     Vecteur sup(const Vecteur &other) const;
-    Vecteur divise(const Vecteur &v, int scalar);
-
-
-
     Vecteur cross(const Vecteur &other) const;
-    Vecteur operator-(const Vecteur &other) const;
+
+    Vecteur operator/(float value) const;
+    Vecteur operator-(Vecteur other) const;
     Vecteur operator+(const Vecteur &other) const;
 };
 std::ostream &operator<<(std::ostream &out, Vecteur v);
@@ -42,6 +40,48 @@ public:
     Vecteur getSommet2() const;
     Vecteur getSommet3() const;
     Vecteur normal() const;
+
+    Vecteur operator[](int i) const
+    {
+        // make switch case with i
+
+        switch (i)
+        {
+        case 0:
+            return sommet1;
+            break;
+        case 1:
+
+            return sommet2;
+            break;
+        case 2:
+
+            return sommet3;
+            break;
+        default:
+            break;
+        }
+    }
+    Vecteur &operator[](int i)
+    {
+
+        switch (i)
+        {
+        case 0:
+            return sommet1;
+            break;
+        case 1:
+
+            return sommet2;
+            break;
+        case 2:
+
+            return sommet3;
+            break;
+        default:
+            break;
+        }
+    }
 
 private:
     Vecteur sommet1, sommet2, sommet3;
@@ -89,6 +129,11 @@ struct Index
     {
         return (idx[0] < other.idx[0]) || ((idx[0] == other.idx[0]) && ((idx[1] < other.idx[1]) || ((idx[1] == other.idx[1]) && (idx[2] < other.idx[2]))));
     }
+
+    bool operator==(const Index &other) const
+    {
+        return (idx[0] == other.idx[0]) && ((idx[1] == other.idx[1]) && (idx[2] == other.idx[2]));
+    }
 };
 
 // Structure pour calculer le barycentre d'un ensemble de points.
@@ -111,20 +156,18 @@ struct TriangleSoupZipper
     TriangleSoupZipper(const TriangleSoup &anInput, TriangleSoup &anOutput, Index size);
     // zip la soupe de triangles en entrée vers la soupe de triangles en sortie
     void zip();
-    void zipBis();   // modifié pour la derniere question 4.4
     void smartZip(); // modifié pour la derniere question 4.4 + smart
     /// return l'index de la cellule dans laquelle tombe p.
     Index index(const Vecteur &p) const;
     /// return le centroïde de la cellule d'index idx (son "centre").
     Vecteur centroid(const Index &idx) const;
-    std::map<Index, CellData> index2data;
 
     // variable
     const TriangleSoup &input;
     TriangleSoup &output;
     Index size;
-    int xSize;
-    int ySize;
-    int zSize;
-
+    Vecteur low;
+    Vecteur up;
+    Vecteur cellSize;
+    std::map<Index, CellData> index2data;
 };

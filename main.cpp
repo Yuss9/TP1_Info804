@@ -33,11 +33,6 @@ int printTrefTri(int argc, char **argv)
   }
 
   std::ifstream input(argv[1]);
-  if (!input.good())
-  {
-    std::cerr << "ERROR : could not open file" << std::endl;
-    return -1;
-  }
 
   QApplication application(argc, argv);
   TriangleSoup iSoup;
@@ -45,7 +40,6 @@ int printTrefTri(int argc, char **argv)
   Viewer viewer(&iSoup);
   viewer.ptrSoup = &iSoup;
   viewer.setWindowTitle("Viewer triangle soup");
-
   input.close();
   viewer.show();
   application.exec();
@@ -81,18 +75,18 @@ int testCompressionBunny(int argc, char **argv)
   zipper.smartZip();
 
   Viewer viewer(&iSoupOut);
-  
+
   viewer.setWindowTitle("Viewer triangle soup");
 
   input.close();
   viewer.show();
   application.exec();
-  
+
   return 0;
 }
 
 int main(int argc, char **argv)
 {
-  testCompressionBunny(argc, argv);
-  //printTrefTri(argc, argv);
+  // testCompressionBunny(argc, argv);
+  printTrefTri(argc, argv);
 }

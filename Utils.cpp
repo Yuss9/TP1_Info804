@@ -6,6 +6,9 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include <ostream>
+#include <vector>
+
 using namespace std;
 
 // Class Vecteur
@@ -49,14 +52,14 @@ Vecteur Vecteur::sup(const Vecteur &other) const
 // produit vectoriel
 Vecteur Vecteur::cross(const Vecteur &other) const
 {
-    return Vecteur(
-        xyz[1] * other[2] - xyz[2] * other[1],
-        xyz[2] * other[0] - xyz[0] * other[2],
-        xyz[0] * other[1] - xyz[1] * other[0]);
+    return Vecteur((*this)[1] * (other[2]) - (*this)[2] * other[1],
+                   (*this)[2] * other[0] - (*this)[0] * other[2],
+                   (*this)[0] * other[1] - (*this)[1] * other[0]);
 }
 
 // normalise le vecteur
-void Vecteur::normalize()
+Vecteur Vecteur::normalize()
+
 {
     float norm = sqrt(xyz[0] * xyz[0] + xyz[1] * xyz[1] + xyz[2] * xyz[2]);
     for (int i = 0; i < 3; i++)
@@ -66,24 +69,16 @@ void Vecteur::normalize()
 }
 
 // soustraction de vecteurs
-Vecteur Vecteur::operator-(const Vecteur &other) const
+Vecteur Vecteur::operator-(Vecteur other) const
 {
-    Vecteur res;
-    for (int i = 0; i < 3; i++)
-    {
-        res[i] = xyz[i] - other[i];
-    }
-    return res;
+    return Vecteur((*this)[0] - other[0],
+                   (*this)[1] - other[1],
+                   (*this)[2] - other[2]);
 }
 
-Vecteur Vecteur::divise(const Vecteur &v, int scalar)
+Vecteur Vecteur::operator/(float value) const
 {
-    Vecteur res;
-    for (int i = 0; i < 3; i++)
-    {
-        res[i] = v[i] / scalar;
-    }
-    return res;
+    return Vecteur((*this)[0] / value, (*this)[1] / value, (*this)[2] / value);
 }
 
 // operator +
@@ -122,9 +117,7 @@ Vecteur Triangle::normal() const
     // return (sommet2 - sommet1).cross(sommet3 - sommet1);
     Vecteur u = getSommet2() - getSommet1();
     Vecteur v = getSommet3() - getSommet1();
-    Vecteur normal = u.cross(v);
-    normal.normalize();
-    return normal;
+    return u.cross(v).normalize();
 }
 
 std::ostream &operator<<(std::ostream &out, Triangle t)
@@ -145,145 +138,68 @@ TriangleSoup::TriangleSoup() {}
 
 void TriangleSoup::read(std::istream &in)
 {
-    std::string line;
-    while (std::getline(in, line))
+
+    std::string str;
+    std::string type;
+
+    if (!in.good())
     {
-        std::istringstream iss(line);
-        Triangle t;
-        if (iss >> t)
+        std::cerr << "Probleme !";
+    }
+    /***
+     * Tant qu'on a des commentaires
+     */
+    while (str.c_str()[0] == '#')
+    {
+        std::getline(in, str);
+    }
+    /***
+     * Tant qu'on a des lignes avec des triangles
+     */
+    while (std::getline(in, str))
+    {
+        if (str.c_str()[0] == '#')
         {
+            std::getline(in, str);
+        } // si on a un commentaire on skip
+        else
+        {
+            float t1x, t1y, t1z, t2x, t2y, t2z, t3x, t3y, t3z;
+            std::istringstream istr(str);
+            istr >> t1x >> t1y >> t1z >> t2x >> t2y >> t2z >> t3x >> t3y >> t3z;
+            Vecteur v1(t1x, t1y, t1z);
+            Vecteur v2(t2x, t2y, t2z);
+            Vecteur v3(t3x, t3y, t3z);
+            Triangle t(v1, v2, v3);
             triangles.push_back(t);
         }
     }
 }
 
+// peut etre faire une fonction write
+
 void TriangleSoup::boundingBox(Vecteur &low, Vecteur &up) const
 {
     low = triangles[0].getSommet1();
     up = triangles[0].getSommet1();
-    for (int i = 0; i < triangles.size(); i++)
+    // for (int i = 0; i < triangles.size(); i++)
+    // {
+    //     low = low.inf(triangles[i].getSommet1());
+    //     low = low.inf(triangles[i].getSommet2());
+    //     low = low.inf(triangles[i].getSommet3());
+    //     up = up.sup(triangles[i].getSommet1());
+    //     up = up.sup(triangles[i].getSommet2());
+    //     up = up.sup(triangles[i].getSommet3());
+    // }
+
+    for (std::vector<Triangle>::const_iterator it = triangles.begin(), itE = triangles.end(); it != itE; ++it)
     {
-        low = low.inf(triangles[i].getSommet1());
-        low = low.inf(triangles[i].getSommet2());
-        low = low.inf(triangles[i].getSommet3());
-        up = up.sup(triangles[i].getSommet1());
-        up = up.sup(triangles[i].getSommet2());
-        up = up.sup(triangles[i].getSommet3());
-    }
-}
-
-// TriangleSoupZipper et Index
-
-TriangleSoupZipper::TriangleSoupZipper(const TriangleSoup &anInput, TriangleSoup &anOutput, Index size)
-    : input(anInput), output(anOutput), size(size)
-{
-    Vecteur low, up;
-    input.boundingBox(low, up);
-
-    // Calcul des tailles réelles de chaque cellule
-    xSize = (up[0] - low[0]) / size[0];
-    ySize = (up[1] - low[1]) / size[1];
-    zSize = (up[2] - low[2]) / size[2];
-}
-
-Index TriangleSoupZipper::index(const Vecteur &p) const
-{
-    Vecteur low, up;
-    input.boundingBox(low, up);
-    return Index(
-        (p[0] - low[0]) / xSize,
-        (p[1] - low[1]) / ySize,
-        (p[2] - low[2]) / zSize);
-}
-
-Vecteur TriangleSoupZipper::centroid(const Index &idx) const
-{
-    Vecteur low, up;
-    input.boundingBox(low, up);
-    return Vecteur(
-        low[0] + (idx[0] + 0.5) * xSize,
-        low[1] + (idx[1] + 0.5) * ySize,
-        low[2] + (idx[2] + 0.5) * zSize);
-}
-
-void TriangleSoupZipper::zip()
-{
-    int i = 0;
-    // Pour chaque triangle de la soupe en entrée
-    for (Triangle t : input.triangles)
-    {
-        cout << i << endl;
-        i++;
-        // Calcule les indices des sommets du triangle
-        Index i1 = index(t.getSommet1());
-        Index i2 = index(t.getSommet2());
-        Index i3 = index(t.getSommet3());
-
-        // cout << "i1 : " << i1[0] << " " << i1[1] << " " << i1[2] << endl;
-        // Si les indices sont différents, ajoute un triangle à la soupe en sortie
-        if (i1 != i2 || i2 != i3 || i1 != i3)
+        for (int i = 0; i < 3; ++i)
         {
-            // cout<<"dans le if"<<endl;
-            output.triangles.push_back(Triangle(centroid(i1), centroid(i2), centroid(i3)));
+
+            low = low.inf((*it)[i]);
+            up = up.sup((*it)[i]);
         }
-    }
-}
-
-void TriangleSoupZipper::zipBis()
-{
-    int i = 0;
-
-    cout<<"le nombre de triangle en entree est : "<<input.triangles.size()<<endl;
-
-    // Pour chaque triangle de la soupe en entrée
-    for (Triangle t : input.triangles)
-    {
-        cout << "Triangle numero dans le zipBis : " << i << endl;
-        i++;
-        // Calcule les indices des sommets du triangle
-        Index i1 = index(t.getSommet1());
-        Index i2 = index(t.getSommet2());
-        Index i3 = index(t.getSommet3());
-
-        // Ajoutez chaque sommet du triangle à la cellule correspondante
-        index2data[i1].add(t.getSommet1());
-        index2data[i2].add(t.getSommet2());
-        index2data[i3].add(t.getSommet3());
-
-        // Si les indices sont différents, ajoutez un triangle à la soupe en sortie
-        if (i1 != i2 || i2 != i3 || i1 != i3)
-        {
-            output.triangles.push_back(Triangle(centroid(i1), centroid(i2), centroid(i3)));
-        }
-    }
-}
-
-void TriangleSoupZipper::smartZip()
-{
-    index2data.clear(); // nettoyez index2data
-    zipBis();           // appelez zip()
-
-    // Réinitialisez la soupe en sortie
-    output.triangles.clear();
-
-    int i = 0;
-
-    // Pour chaque triangle de la soupe en sortie
-    for (Triangle t : input.triangles)
-    {
-
-        cout << "Triangle numero dans le smartZip : " << i << endl;
-        i++;
-
-        // Calcule les indices des sommets du triangle
-        Index i1 = index(t.getSommet1());
-        Index i2 = index(t.getSommet2());
-        Index i3 = index(t.getSommet3());
-
-        // Replacer chaque sommet du triangle avec son barycentre
-        output.triangles.push_back(Triangle(index2data[i1].barycenter(),
-                                            index2data[i2].barycenter(),
-                                            index2data[i3].barycenter()));
     }
 }
 
@@ -296,8 +212,143 @@ void CellData::add(const Vecteur &v)
 
 Vecteur CellData::barycenter() const
 {
+    return acc / nb;
+}
+
+// TriangleSoupZipper et Index
+TriangleSoupZipper::TriangleSoupZipper(const TriangleSoup &anInput, TriangleSoup &anOutput, Index size)
+    : input(anInput), output(anOutput), size(size)
+{
+    Vecteur low, up;
+    input.boundingBox(low, up);
+    index2data = std::map<Index, CellData>();
+    cellSize = Vecteur((up[0] - low[0]) / size[0],
+                       (up[1] - low[1]) / size[1],
+                       (up[2] - low[2]) / size[2]);
+}
+
+Index TriangleSoupZipper::index(const Vecteur &p) const
+{
+    Index i;
+
+    i.idx[0] = (int)(p.xyz[0] - low[0]) / cellSize[0];
+    i.idx[1] = (int)(p.xyz[1] - low[1]) / cellSize[1];
+    i.idx[2] = (int)(p.xyz[2] - low[2]) / cellSize[2];
+
+    return i;
+}
+
+Vecteur TriangleSoupZipper::centroid(const Index &idx) const
+{
     Vecteur v;
-    v.divise(acc, nb);
-    // Retourne le barycentre de tous les points ajoutés.
+
+    // calcul du centroid
+    v.xyz[0] = idx.idx[0] * cellSize[0] + (cellSize[0] / 2) + low[0];
+    v.xyz[1] = idx.idx[1] * cellSize[1] + (cellSize[1] / 2) + low[1];
+    v.xyz[2] = idx.idx[2] * cellSize[2] + (cellSize[2] / 2) + low[2];
+
     return v;
 }
+
+void TriangleSoupZipper::zip()
+{
+    for (std::vector<Triangle>::const_iterator it = input.triangles.begin(), itE = input.triangles.end(); it != itE; ++it)
+    {
+
+        Index idx[3];
+
+        for (int i = 0; i < 3; ++i)
+        {
+            idx[i] = index((*it)[i]);
+            index2data[idx[i]].add((*it)[i]);
+        }
+
+        if (!(idx[0] == idx[1] || idx[0] == idx[2] || idx[1] == idx[2]))
+        {
+            Triangle newT;
+            for (int i = 0; i < 3; ++i)
+            {
+                newT[i] = centroid(idx[i]);
+            }
+
+            // on l'ajoute
+            output.triangles.push_back(newT);
+        }
+    }
+}
+
+void TriangleSoupZipper::smartZip()
+{
+
+    index2data.clear();
+
+    zip();
+
+    for (std::vector<Triangle>::iterator it = output.triangles.begin(), itE = output.triangles.end(); it != itE; ++it)
+    {
+
+        for (int j = 0; j < 3; ++j)
+        {
+
+            (*it)[j] = index2data[index((*it)[j])].barycenter();
+        }
+    }
+}
+
+// void TriangleSoupZipper::zipBis()
+// {
+//     int i = 0;
+
+//     cout << "le nombre de triangle en entree est : " << input.triangles.size() << endl;
+
+//     // Pour chaque triangle de la soupe en entrée
+//     for (Triangle t : input.triangles)
+//     {
+//         cout << "Triangle numero dans le zipBis : " << i << endl;
+//         i++;
+//         // Calcule les indices des sommets du triangle
+//         Index i1 = index(t.getSommet1());
+//         Index i2 = index(t.getSommet2());
+//         Index i3 = index(t.getSommet3());
+
+//         // Ajoutez chaque sommet du triangle à la cellule correspondante
+//         index2data[i1].add(t.getSommet1());
+//         index2data[i2].add(t.getSommet2());
+//         index2data[i3].add(t.getSommet3());
+
+//         // Si les indices sont différents, ajoutez un triangle à la soupe en sortie
+//         if (i1 != i2 || i2 != i3 || i1 != i3)
+//         {
+//             output.triangles.push_back(Triangle(centroid(i1), centroid(i2), centroid(i3)));
+//         }
+//     }
+// }
+
+// void TriangleSoupZipper::smartZip()
+// {
+//     index2data.clear(); // nettoyez index2data
+//     zipBis();           // appelez zip()
+
+//     // Réinitialisez la soupe en sortie
+//     output.triangles.clear();
+
+//     int i = 0;
+
+//     // Pour chaque triangle de la soupe en sortie
+//     for (Triangle t : input.triangles)
+//     {
+
+//         cout << "Triangle numero dans le smartZip : " << i << endl;
+//         i++;
+
+//         // Calcule les indices des sommets du triangle
+//         Index i1 = index(t.getSommet1());
+//         Index i2 = index(t.getSommet2());
+//         Index i3 = index(t.getSommet3());
+
+//         // Replacer chaque sommet du triangle avec son barycentre
+//         output.triangles.push_back(Triangle(index2data[i1].barycenter(),
+//                                             index2data[i2].barycenter(),
+//                                             index2data[i3].barycenter()));
+//     }
+// }
