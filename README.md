@@ -26,11 +26,17 @@ Affichage du bunny apres la compression, avec 50 x 50 x 50 :
 - [@DELIFER Paul](https://github.com/Zall9)
 
 
-## Lancement
+## Lancement des executables
 
-To deploy this project run
-
+# Question 1 : Visualiser une soupe de triangle et afficher le nombre de triangle
 ```bash
   npm run deploy
 ```
+
+# Question 2 : Compression d'une soupe de triangle avec les 5 arguments
+```bash
+  npm run deploy
+```
+
+Toutes les questions ont été abordées.
 
