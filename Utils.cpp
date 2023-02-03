@@ -177,6 +177,13 @@ void TriangleSoup::read(std::istream &in)
 }
 
 // peut etre faire une fonction write
+void TriangleSoup::write(std::ostream &out) const
+{
+    for (std::vector<Triangle>::const_iterator it = triangles.begin(), itE = triangles.end(); it != itE; ++it)
+    {
+        out << *it << std::endl;
+    }
+}
 
 void TriangleSoup::boundingBox(Vecteur &low, Vecteur &up) const
 {

@@ -95,6 +95,7 @@ struct TriangleSoup
     std::vector<Triangle> triangles; // les triangles
     TriangleSoup();
     void read(std::istream &in);
+    void write(std::ostream &out) const;
     void boundingBox(Vecteur &low, Vecteur &up) const;
 };
 
