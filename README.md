@@ -16,7 +16,7 @@ Affichage du tref.tri :
 Affichage du bunny avant la compression :
 ![App Screenshot](imagesREADME/BunnyBeforeZip.png)
 
-Affichage du bunny apres la compression, avec 50 x 50 x 50 :
+Affichage du bunny après la compression, avec 50 x 50 x 50 :
 ![App Screenshot](imagesREADME/BunnyAfterZip.png)
 
 
