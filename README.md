@@ -30,12 +30,12 @@ Affichage du bunny apres la compression, avec 50 x 50 x 50 :
 
 # Question 1 : Visualiser une soupe de triangle et afficher le nombre de triangle
 ```bash
-  npm run deploy
+    ./executables/viewerQ2 bunny258.try
 ```
 
 # Question 2 : Compression d'une soupe de triangle avec les 5 arguments
 ```bash
-  npm run deploy
+  ./executables/viewerQ2 bunny258.tri bunnyCompressed.tri 20 20 20
 ```
 
 Toutes les questions ont été abordées.
