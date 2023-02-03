@@ -32,7 +32,7 @@ Affichage du bunny après la compression, avec 50 x 50 x 50 :
 
 # Question 1 : Visualiser une soupe de triangle et afficher le nombre de triangle
 ```bash
-    ./executables/viewerQ2 bunny258.try
+    ./executables/viewerQ1 bunny258.try
 ```
 
 # Question 2 : Compression d'une soupe de triangle avec les 5 arguments
