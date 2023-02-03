@@ -54,7 +54,7 @@ int PrintQ1(int argc, char **argv)
   return 0;
 }
 
-int testCompressionBunny(int argc, char **argv)
+int PrintQ2(int argc, char **argv)
 {
   if (argc < 2)
   {
@@ -92,6 +92,6 @@ int testCompressionBunny(int argc, char **argv)
 
 int main(int argc, char **argv)
 {
-  testCompressionBunny(argc, argv);
-  //PrintQ1(argc, argv);
+  PrintQ1(argc, argv);
+  //PrintQ2(argc, argv);
 }

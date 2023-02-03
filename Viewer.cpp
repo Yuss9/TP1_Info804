@@ -161,7 +161,7 @@ void Viewer::draw()
 {
   // drawMultiColor(ptrSoup);
   drawFlatShading(ptrSoup);
-  // drawInput(ptrSoup);
+  //drawInput(ptrSoup);
   //  draw4color(ptrSoup);
 }
 

@@ -1,1 +1,36 @@
-# TP1_Info804
+
+# TP1 Visualisation et compression "out-of-core" de soupes de triangles
+
+
+
+## TP1 INFO 804 INFORMATIQUE GRAPHIQUE
+
+Sujet : https://www.lama.univ-savoie.fr/pagesmembres/lachaud/Cours/INFO805/Tests/html/ig_tp1.html
+
+## Screenshots
+
+Affichage du tref.tri :
+
+![App Screenshot](imagesREADME/Tref.png)
+
+Affichage du bunny avant la compression :
+![App Screenshot](imagesREADME/BunnyBeforeZip.png)
+
+Affichage du bunny apres la compression, avec 50 x 50 x 50 :
+![App Screenshot](imagesREADME/BunnyAfterZip.png)
+
+
+## Authors
+
+- [@YURTSEVEN Huseyin](https://github.com/Yuss9)
+- [@DELIFER Paul](https://github.com/Zall9)
+
+
+## Lancement
+
+To deploy this project run
+
+```bash
+  npm run deploy
+```
+

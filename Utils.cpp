@@ -24,7 +24,7 @@ Vecteur::Vecteur() : Vecteur(0, 0, 0) {}
 
 float Vecteur::operator[](int i) const { return xyz[i]; }
 
-float& Vecteur::operator[](int i) { return xyz[i]; }
+float &Vecteur::operator[](int i) { return xyz[i]; }
 
 // Retourne le vecteur dont les composantes sont les minima des
 // composantes de soi-même et de other.
@@ -182,15 +182,6 @@ void TriangleSoup::boundingBox(Vecteur &low, Vecteur &up) const
 {
     low = triangles[0].getSommet1();
     up = triangles[0].getSommet1();
-    // for (int i = 0; i < triangles.size(); i++)
-    // {
-    //     low = low.inf(triangles[i].getSommet1());
-    //     low = low.inf(triangles[i].getSommet2());
-    //     low = low.inf(triangles[i].getSommet3());
-    //     up = up.sup(triangles[i].getSommet1());
-    //     up = up.sup(triangles[i].getSommet2());
-    //     up = up.sup(triangles[i].getSommet3());
-    // }
 
     for (std::vector<Triangle>::const_iterator it = triangles.begin(), itE = triangles.end(); it != itE; ++it)
     {
@@ -294,61 +285,3 @@ void TriangleSoupZipper::smartZip()
         }
     }
 }
-
-// void TriangleSoupZipper::zipBis()
-// {
-//     int i = 0;
-
-//     cout << "le nombre de triangle en entree est : " << input.triangles.size() << endl;
-
-//     // Pour chaque triangle de la soupe en entrée
-//     for (Triangle t : input.triangles)
-//     {
-//         cout << "Triangle numero dans le zipBis : " << i << endl;
-//         i++;
-//         // Calcule les indices des sommets du triangle
-//         Index i1 = index(t.getSommet1());
-//         Index i2 = index(t.getSommet2());
-//         Index i3 = index(t.getSommet3());
-
-//         // Ajoutez chaque sommet du triangle à la cellule correspondante
-//         index2data[i1].add(t.getSommet1());
-//         index2data[i2].add(t.getSommet2());
-//         index2data[i3].add(t.getSommet3());
-
-//         // Si les indices sont différents, ajoutez un triangle à la soupe en sortie
-//         if (i1 != i2 || i2 != i3 || i1 != i3)
-//         {
-//             output.triangles.push_back(Triangle(centroid(i1), centroid(i2), centroid(i3)));
-//         }
-//     }
-// }
-
-// void TriangleSoupZipper::smartZip()
-// {
-//     index2data.clear(); // nettoyez index2data
-//     zipBis();           // appelez zip()
-
-//     // Réinitialisez la soupe en sortie
-//     output.triangles.clear();
-
-//     int i = 0;
-
-//     // Pour chaque triangle de la soupe en sortie
-//     for (Triangle t : input.triangles)
-//     {
-
-//         cout << "Triangle numero dans le smartZip : " << i << endl;
-//         i++;
-
-//         // Calcule les indices des sommets du triangle
-//         Index i1 = index(t.getSommet1());
-//         Index i2 = index(t.getSommet2());
-//         Index i3 = index(t.getSommet3());
-
-//         // Replacer chaque sommet du triangle avec son barycentre
-//         output.triangles.push_back(Triangle(index2data[i1].barycenter(),
-//                                             index2data[i2].barycenter(),
-//                                             index2data[i3].barycenter()));
-//     }
-// }
