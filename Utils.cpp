@@ -146,10 +146,6 @@ void TriangleSoup::read(std::istream &in)
     {
         std::cerr << "Probleme !";
     }
-
-    /***
-     * Tant qu'on a des lignes avec des triangles
-     */
     std::getline(in, str);
     while (std::getline(in, str))
     {
