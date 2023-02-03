@@ -146,16 +146,11 @@ void TriangleSoup::read(std::istream &in)
     {
         std::cerr << "Probleme !";
     }
-    /***
-     * Tant qu'on a des commentaires
-     */
-    while (str.c_str()[0] == '#')
-    {
-        std::getline(in, str);
-    }
+
     /***
      * Tant qu'on a des lignes avec des triangles
      */
+    std::getline(in, str);
     while (std::getline(in, str))
     {
         if (str.c_str()[0] == '#')
