@@ -14,9 +14,11 @@ Affichage du tref.tri :
 ![App Screenshot](imagesREADME/Tref.png)
 
 Affichage du bunny avant la compression :
+
 ![App Screenshot](imagesREADME/BunnyBeforeZip.png)
 
 Affichage du bunny après la compression, avec 50 x 50 x 50 :
+
 ![App Screenshot](imagesREADME/BunnyAfterZip.png)
 
 
