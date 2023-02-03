@@ -160,7 +160,7 @@ void draw4color(const TriangleSoup *ptrSoup)
 void Viewer::draw()
 {
   //drawMultiColor(ptrSoup);
-  //drawFlatShading(ptrSoup);
+  drawFlatShading(ptrSoup);
   //drawInput(ptrSoup);
   //draw4color(ptrSoup);
 }
