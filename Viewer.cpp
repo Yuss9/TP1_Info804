@@ -82,7 +82,6 @@ void drawFlatShading(const TriangleSoup *ptrSoup)
     glVertex3f(triangle.getSommet3()[0], triangle.getSommet3()[1], triangle.getSommet3()[2]);
   }
 
-
   glDisable(GL_COLOR_MATERIAL);
   glEnd();
 }
@@ -160,10 +159,10 @@ void draw4color(const TriangleSoup *ptrSoup)
 // Draws a tetrahedron with 4 colors.
 void Viewer::draw()
 {
-  // drawMultiColor(ptrSoup);
-  drawFlatShading(ptrSoup);
-  // drawInput(ptrSoup);
-  //   draw4color(ptrSoup);
+  //drawMultiColor(ptrSoup);
+  //drawFlatShading(ptrSoup);
+  //drawInput(ptrSoup);
+  //draw4color(ptrSoup);
 }
 
 // old init
